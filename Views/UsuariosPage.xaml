@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:UsuariosRestApp.ViewModels"
+             xmlns:models="clr-namespace:UsuariosRestApp.Models"
+             x:Class="UsuariosRestApp.Views.UsuariosPage"
+             x:DataType="vm:UsuariosViewModel"
+             Title="Directorio de Usuarios">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="+ Nuevo" Command="{Binding IrACrearUsuarioCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto, *">
+        <!-- Indicador de carga inicial -->
+        <ActivityIndicator Grid.Row="0"
+                           IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           Color="#E91E63"
+                           Margin="0,10" />
+
+        <!-- RefreshView para el punto extra (Pull-to-Refresh) -->
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding CargarUsuariosCommand}">
+
+            <CollectionView ItemsSource="{Binding Usuarios}"
+                            SelectionMode="Single"
+                            SelectionChangedCommand="{Binding SeleccionarUsuarioCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Usuario">
+                        <Border StrokeShape="RoundRectangle 10"
+                                StrokeThickness="1"
+                                Stroke="#E0E0E0"
+                                Margin="12,6"
+                                Padding="15"
+                                BackgroundColor="White">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding Name}" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#212121" />
+                                <Label Text="{Binding Email}" 
+                                       FontSize="14" 
+                                       TextColor="#757575" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

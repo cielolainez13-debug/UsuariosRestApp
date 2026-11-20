@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:UsuariosRestApp.ViewModels"
+             x:Class="UsuariosRestApp.Views.CrearUsuarioPage"
+             x:DataType="vm:CrearUsuarioViewModel"
+             Title="Registrar Usuario">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Text="Nuevo Usuario (POST)" FontSize="20" FontAttributes="Bold" />
+
+            <!-- Vista previa de la fotografía -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="#E0E0E0"
+                    BackgroundColor="#F5F5F5"
+                    HeightRequest="180"
+                    HorizontalOptions="Fill">
+                <Grid>
+                    <Image Source="{Binding FotoPreview}"
+                           Aspect="AspectFill" />
+                    <Label Text="Sin fotografía seleccionada"
+                           IsVisible="{Binding FotoPreview, Converter={x:Null}}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           TextColor="#757575" />
+                </Grid>
+            </Border>
+
+            <!-- Botones para agregar fotografía -->
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                <Button Grid.Column="0"
+                        Text="Tomar foto"
+                        Command="{Binding TomarFotoCommand}"
+                        BackgroundColor="#AD1457"
+                        TextColor="White"
+                        CornerRadius="8" />
+
+                <Button Grid.Column="1"
+                        Text="Galería"
+                        Command="{Binding SeleccionarFotoCommand}"
+                        BackgroundColor="#EC407A"
+                        TextColor="White"
+                        CornerRadius="8" />
+            </Grid>
+
+            <Entry Placeholder="Nombre completo *" Text="{Binding Name}" />
+            <Entry Placeholder="Correo electrónico *" Keyboard="Email" Text="{Binding Email}" />
+            <Entry Placeholder="Teléfono" Keyboard="Telephone" Text="{Binding Phone}" />
+            <Entry Placeholder="Sitio web (ej. misitio.com)" Keyboard="Url" Text="{Binding Website}" />
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               Color="#E91E63" />
+
+            <Button Text="Enviar a la API"
+                    Command="{Binding GuardarUsuarioCommand}"
+                    BackgroundColor="#E91E63"
+                    TextColor="White"
+                    CornerRadius="8"
+                    HeightRequest="50" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
